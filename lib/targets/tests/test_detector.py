@@ -12,31 +12,31 @@ class TargetDetectorTests(TestCase):
         self.assertEqual(targets[0].type, TargetTypes.DIRECTORY)
 
     def test_detector_omits_non_existent_files(self):
-        targets = TargetDetector().detect(paths=['this_file_does_not_exist.txt'])
+        targets = TargetDetector().detect(paths=["this_file_does_not_exist.txt"])
         self.assertEqual(len(targets), 0)
 
-    @patch('lib.targets.detector.Path', autospec=True)
+    @patch("lib.targets.detector.Path", autospec=True)
     def test_detector_on_directories(self, path_mock):
         path_mock.return_value.exists.return_value = True
         path_mock.return_value.is_dir.return_value = True
         path_mock.return_value.is_file.return_value = False
-        targets = TargetDetector().detect(paths=['aDirectory'])
+        targets = TargetDetector().detect(paths=["aDirectory"])
         self.assertEqual(len(targets), 1)
         self.assertEqual(targets[0].type, TargetTypes.DIRECTORY)
 
-    @patch('lib.targets.detector.Path', autospec=True)
+    @patch("lib.targets.detector.Path", autospec=True)
     def test_detector_on_files(self, path_mock):
         path_mock.return_value.exists.return_value = True
         path_mock.return_value.is_dir.return_value = False
         path_mock.return_value.is_file.return_value = True
-        targets = TargetDetector().detect(paths=['aFile.txt'])
+        targets = TargetDetector().detect(paths=["aFile.txt"])
         self.assertEqual(len(targets), 1)
         self.assertEqual(targets[0].type, TargetTypes.FILE)
 
-    @patch('lib.targets.detector.Path', autospec=True)
+    @patch("lib.targets.detector.Path", autospec=True)
     def test_detector_on_unsupported_type(self, path_mock):
         path_mock.return_value.exists.return_value = True
         path_mock.return_value.is_dir.return_value = False
         path_mock.return_value.is_file.return_value = False
         with self.assertRaises(ValueError):
-            TargetDetector().detect(paths=['/var/run/socket'])
+            TargetDetector().detect(paths=["/var/run/socket"])

@@ -1,5 +1,6 @@
 import sys
 from pathlib import Path
+from typing import Type
 
 from .base import BaseTarget
 from .directory import DirectoryTarget
@@ -16,7 +17,7 @@ class TargetDetector:
         return path.exists()
 
     @staticmethod
-    def get_target_class(path: Path):
+    def get_target_class(path: Path) -> Type[BaseTarget]:
         """
         Checks the type of provided path (file, dir, symlink, etc. ) and returns a corresponding BaseTarget subclass
         """
@@ -28,7 +29,7 @@ class TargetDetector:
             raise ValueError("Unsupported target type")
 
     @staticmethod
-    def get_target(pathstr: str):
+    def get_target(pathstr: str) -> BaseTarget:
         """
         Returns a target object for given path. Raises TargetNotFoundError, when given path does not exist
         """
