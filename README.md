@@ -26,6 +26,8 @@ To display content of current directory, use `lshx`
 
 To manually select targets (files/directories/etc.) to display, use `lshx file1.txt file2.txt file3.jpg`
 
+To display every entry in new line, use `-1` flag, eg. `lshx -1`
+
 ## Development
 
 There additional development tools available from `make` utility:
