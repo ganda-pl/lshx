@@ -51,6 +51,16 @@ def lshx(files: Type[List[Any]] = list, one_per_line: bool = False) -> None:
         print()
         if display_target_names:
             print(f"{target.path.name}:")
+
+        # detect targets within the container
+        # TODO: refactor to clean main lshx method
+        children = list(target.path.glob("*"))
+        children_targets = TargetDetector.detect(
+            [str(path.absolute()) for path in children]
+        )
+        for child_target in sorted(children_targets, key=lambda x: x.path.name):
+            print(formatter.format(child_target), end="")
+
     print()
 
 
