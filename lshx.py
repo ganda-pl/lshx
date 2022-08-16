@@ -23,7 +23,13 @@ def get_formatter(one_per_line: bool) -> Type[BaseFormatter]:
 
 @click.command()
 @click.argument("files", nargs=-1)
-@click.option("-1", "--one-per-line", is_flag=True, default=False)
+@click.option(
+    "-1",
+    "--one-per-line",
+    is_flag=True,
+    default=False,
+    help="Display each file in a separate line",
+)
 def lshx(files: Type[List[Any]] = list, one_per_line: bool = False) -> None:
     paths: list[str] = [str(path) for path in files]  # type:ignore
     formatter = get_formatter(one_per_line=one_per_line)()
